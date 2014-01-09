@@ -1,0 +1,5 @@
+# report about support issues closed yesterday every midnight
+1 0 * * * /opt/reports/report.sh support_closed "YESTERDAY : Support Issues Closed"
+
+# report about support issues in progress every morning
+0 8 * * * /opt/reports/report.sh support_inprog "TODAY : Support Issues In Progress"
