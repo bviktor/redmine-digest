@@ -7,7 +7,7 @@ It generates and sends email digests about Redmine issues that meet the given cr
 
 <img src="screenshot.png" />
 
-It queries the data to be reported directly from the database, so it doesn't bloat your Redmine installation, doesn't require new gems nor does it depend on APIs. It only depends on the database schema.
+It queries the data to be reported directly from the database so it doesn't bloat your Redmine installation, doesn't require new gems nor does it depend on APIs. It only depends on the database schema.
 
 
 ### Prerequisites?
@@ -33,15 +33,15 @@ If it's feasible in your setup, you may also try to [migrate](http://vault-tec.i
 
 ### How do I use this?
 
- * Rename `config.sh.example` to `config.sh` and set it up correctly.
- * Run `new_report.sh` to create a new report config, it should be self-explanatory.
-   * If needed, open `data/<report_name>` and modify the query (`WHERE` statement) accordingly.
- * Send a report with `./report.sh <report_name> <subject>`. `<report_name>` is the name of the report as in the `data` folder and `<subject>` will be added to the email subject.
+ * Rename `config.sh.example` to `config.sh` and set it up according to your environment.
+ * Create a new report config with `./new_report.sh`, it should be self-explanatory.
+   * If needed, open `data/report_name` and modify the query (`WHERE` statement) accordingly.
+ * Send the report with `./report.sh report_name [subject]`. `report_name` is the name of the report as in the `data` folder and `subject` will be added to the email subject if provided.
 
 
 ### How do I send daily reports automatically?
 
-Add cronjobs, see `crontab.example` for examples.
+Add cronjobs (Unix) or scheduled tasks (Windows). See `crontab.example` for examples.
 
 
 ### Why no release?
@@ -51,7 +51,7 @@ Because this is just a bunch of shell scripts. You can safely use the [Git versi
 
 ### More info?
 
-Check out the scripts, they should be straightforward to admins.
+Check out the scripts, they should be straightforward to anyone administering Redmine.
 
 
 ### Alternatives?
