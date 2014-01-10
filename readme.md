@@ -36,7 +36,9 @@ If it's feasible in your setup, you may also try to [migrate](http://vault-tec.i
  * Rename `config.sh.example` to `config.sh` and set it up according to your environment.
  * Create a new report config with `./new_report.sh`, it should be self-explanatory.
    * If needed, open `data/report_name` and modify the query (`WHERE` statement) accordingly.
- * Send the report with `./report.sh report_name [subject]`. `report_name` is the name of the report as in the `data` folder and `subject` will be added to the email subject if provided.
+ * Send the report with `./report.sh report_name [subject]`.
+   * `report_name` is the name of the report as in the `data` folder.
+   * `subject` will be added to the email subject if provided.
 
 
 ### How do I send daily reports automatically?
