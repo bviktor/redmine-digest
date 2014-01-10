@@ -25,14 +25,6 @@ QUERY_FILE="${TEMP_DIR}/query.txt"
 # source the config file
 . ${ROOT_DIR}/config.sh
 
-# set up debug
-if [ ${DEBUG} -eq 1 ]
-then
-    CURL_FLAGS='--verbose'
-else
-    CURL_FLAGS='--silent'
-fi
-
 # initial cleanup
 rm -rf ${TEMP_DIR}
 mkdir -p ${TEMP_DIR}
@@ -46,6 +38,26 @@ sh ${ROOT_DIR}/query.sh "${REPORT_DIR}/${ARG1}.psql" > ${QUERY_FILE}
 
 # convert the query output to an HTML document
 sh ${ROOT_DIR}/html.sh ${QUERY_FILE} >> ${MAIL_FILE}
+
+# set up debug
+if [ ${DEBUG} -eq 1 ]
+LINE_SEP='*******************************************************************************'
+then
+    CURL_FLAGS='--verbose'
+    echo "${LINE_SEP}"
+    echo 'DATABASE QUERY OUTPUT:'
+    echo "${LINE_SEP}"
+    cat ${QUERY_FILE}
+    echo "${LINE_SEP}"
+    echo 'GENERATED EMAIL BODY:'
+    echo "${LINE_SEP}"
+    cat ${MAIL_FILE}
+    echo "${LINE_SEP}"
+    echo 'CURL OUTPUT:'
+    echo "${LINE_SEP}"
+else
+    CURL_FLAGS='--silent'
+fi
 
 # send the email
 curl ${CURL_FLAGS} --ssl-reqd --mail-from ${SMTP_SENDER} ${RCPT_LIST} --user ${SMTP_USER} --upload-file ${MAIL_FILE} ${SMTP_HOST}
