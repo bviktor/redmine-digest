@@ -35,7 +35,7 @@ If it's feasible in your setup, you may also try to [migrate](http://vault-tec.i
 
  * Rename `config.sh.example` to `config.sh` and set it up correctly.
  * Run `new_report.sh` to create a new report config, it should be self-explanatory.
- * If needed, open `data/<report_name>` and modify the query (`WHERE` statement) accordingly.
+   * If needed, open `data/<report_name>` and modify the query (`WHERE` statement) accordingly.
  * Send a report with `./report.sh <report_name> <subject>`. `<report_name>` is the name of the report as in the `data` folder and `<subject>` will be added to the email subject.
 
 
