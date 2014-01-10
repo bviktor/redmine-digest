@@ -43,7 +43,7 @@ do
 	EVEN=1
     fi
 
-    LEN=`echo ${P_ID} | wc -m`
+    LEN=`echo ${P_ID} | wc -c`
     if [ ${LEN} -ge 2 ]
     then
         echo "<td><small><i><a href=\"${REDMINE_URL}/issues/${P_ID}\">${P_SUB}</a></i></small><br />&gt; <a href=\"${REDMINE_URL}/issues/${I_ID}\">${I_SUB}</a></td> "
