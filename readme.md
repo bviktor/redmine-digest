@@ -38,7 +38,7 @@ If it's feasible in your setup, you may also try to [migrate](http://vault-tec.i
    * If needed, open `data/report_name` and modify the query (`WHERE` statement) accordingly.
  * Send the report with `./report.sh report_name [subject]`.
    * `report_name` is the name of the report as in the `data` folder.
-   * `subject` will be added to the email subject if provided.
+   * `subject` will be added to the email subject if provided. You can use `TODAY` for the current date and/or `YESTERDAY` for yesterday's, e.g. `Closed Issues on YESTERDAY` will be sent as `Closed Issues on 2014-01-10`.
 
 
 ### How do I send daily reports automatically?
