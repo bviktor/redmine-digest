@@ -21,7 +21,12 @@ EOT
 # generate either a mail header or a recipient list for curl
 case $1 in
     --header)
-	echo -e "To: ${TO_LIST}\nSubject: $3\nMime-Version: 1.0;\nContent-Type: text/html; charset=UTF-8;\n"
+	# echo -e works inconsistently across platforms, so let's just use multiple echos to preserve indentation
+	echo "To: ${TO_LIST}"
+	echo "Subject: $3"
+	echo "Mime-Version: 1.0;"
+	echo "Content-Type: text/html; charset=UTF-8;"
+	echo ""
 	;;
     --rcpt)
 	echo "${RCPT_LIST}"
