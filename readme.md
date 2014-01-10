@@ -26,7 +26,7 @@ It is tested and works flawlessly on Windows 8.1 (with [Git](http://code.google.
 
 ### But I use MySQL/SQL Server!
 
-I don't use them thus I can't test them, so patches are welcome. All it would take is just coding and testing the commands for feeding their corresponding command-line tools with the report queries in `report.sh` and `new_report.sh`.
+I don't use them thus I can't test them, so patches are welcome. All it would take is just coding and testing the commands for feeding their corresponding command-line tools with the report queries in `query.sh` and `new_report.sh`.
 
 If it's feasible in your setup, you may also try to [migrate](http://vault-tec.info/post/68670739052/installing-migrating-upgrading-redmine-with-ldap-o) to PostgreSQL.
 
