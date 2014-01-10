@@ -21,7 +21,7 @@ The following command-line tools on **any** OS which has them:
  * curl
  * psql (for PostgreSQL) or sqlite3 (for SQLite)
 
-It is tested and works flawlessly on Windows 8.1 (with [msysgit](http://code.google.com/p/msysgit/downloads/list?q=full+installer+official+git) and [pgAdmin](http://www.pgadmin.org/download/windows.php)) and on Ubuntu 13.10.
+It is tested and works flawlessly on Windows 8.1 (with [Git](http://code.google.com/p/msysgit/downloads/list?q=full+installer+official+git) and [pgAdmin](http://www.pgadmin.org/download/windows.php)) and on Ubuntu 12.10/13.10.
 
 
 ### But I use MySQL/SQL Server!
