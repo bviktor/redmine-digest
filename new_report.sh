@@ -9,6 +9,8 @@ REPORT_DIR="${ROOT_DIR}/data"
 # source the config file
 . ${ROOT_DIR}/config.sh
 
+ID_QUERY='SELECT id, name FROM projects ORDER BY id'
+
 # create directory for reports if needed
 mkdir -p ${REPORT_DIR}
 
@@ -43,7 +45,23 @@ then
 	read -p "Project ID (type ? for a list)? " PROJECT_ID
         case ${PROJECT_ID} in
 	    '?')
-		PGPASSWORD=${DB_PASS} psql --host=${DB_HOST} --port=${DB_PORT} --dbname=${DB_NAME} --username=${DB_USER} --tuples-only --no-align --field-separator=' ' --command "SELECT id, name FROM projects ORDER BY id"
+		case ${DB_TYPE} in
+		    postgresql)
+			PGPASSWORD=${DB_PASS} psql --host=${DB_HOST} --port=${DB_PORT} --dbname=${DB_NAME} --username=${DB_USER} \
+			--tuples-only --no-align --field-separator=' ' --command "${ID_QUERY}"
+			;;
+		    sqlite)
+			sqlite3 -separator ' ' ${DB_FILE} "${ID_QUERY}"
+			;;
+		    mysql|mssql)
+			echo 'Unimplemented database type.'
+			exit 1
+			;;
+		    *)
+			echo 'Invalid database type.'
+			exit 1
+			;;
+		esac
 		;;
 	    *)
 		break
@@ -63,8 +81,8 @@ ${DEFAULT_RCPT}
 echo \
 "SELECT projects.name, issues.id, issues.subject, issues.parent_id, parent_issues.subject, users.firstname, users.lastname
 FROM issues
-JOIN users ON (assigned_to_id = users.id)
-JOIN projects ON (project_id = projects.id)
+JOIN users ON (issues.assigned_to_id = users.id)
+JOIN projects ON (issues.project_id = projects.id)
 LEFT JOIN issues parent_issues ON (issues.parent_id = parent_issues.id)" \
 > ${REPORT_DIR}/${REPORT_NAME}.psql
 

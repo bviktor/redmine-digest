@@ -12,22 +12,29 @@ SMTP_SENDER='redmine@foo.bar'
 # Account used for SMTP authentication in user:password format
 SMTP_USER='redmine@foo.bar:kewl_password'
 
-# Database type, only 'postgresql' is supported ATM
+# Database type
+# for PostgreSQL, use 'postgresql'
+# for SQLite, use 'sqlite'
+# for MySQL, use 'mysql'
+# for SQL Server, use 'mssql'
 DB_TYPE='postgresql'
 
-# Database hostname
+# Database file, only used by SQLite
+DB_FILE='/opt/redmine/db/redmine.sqlite3'
+
+# Database hostname, skip with SQLite
 DB_HOST='127.0.0.1'
 
-# Database port
+# Database port, skip with SQLite
 DB_PORT='5432'
 
-# Database name
+# Database name, skip with SQLite
 DB_NAME='redmine'
 
-# Database user
+# Database user, skip with SQLite
 DB_USER='redmine'
 
-# Database password
+# Database password, skip with SQLite
 DB_PASS='kewl_password'
 
 # URL of your Redmine instance

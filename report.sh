@@ -44,10 +44,18 @@ RCPT_LIST=`sh ${ROOT_DIR}/mail.sh --rcpt "${REPORT_DIR}/${ARG1}.rcpt"`
 # perform the relevant SQL query
 case ${DB_TYPE} in
     postgresql)
-	PGPASSWORD=${DB_PASS} psql --host=${DB_HOST} --port=${DB_PORT} --dbname=${DB_NAME} --username=${DB_USER} --tuples-only --no-align --command "`cat ${REPORT_DIR}/${ARG1}.psql`" > ${QUERY_FILE}
+	PGPASSWORD=${DB_PASS} psql --host=${DB_HOST} --port=${DB_PORT} --dbname=${DB_NAME} --username=${DB_USER} --field-separator='|' \
+	--tuples-only --no-align --command "`cat ${REPORT_DIR}/${ARG1}.psql`" > ${QUERY_FILE}
+	;;
+    sqlite)
+	sqlite3 -separator '|' ${DB_FILE} "`cat ${REPORT_DIR}/${ARG1}.psql`" > ${QUERY_FILE}
+	;;
+    mysql|mssql)
+	echo 'Unimplemented database type.'
+	exit 1
 	;;
     *)
-	echo 'Unsupported database type.'
+	echo 'Invalid database type.'
 	exit 1
 	;;
 esac
