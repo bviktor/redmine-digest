@@ -18,6 +18,7 @@ The following command-line tools on **any** OS which has them:
  * mkdir
  * rm
  * wc
+ * grep
  * curl
  * psql (for PostgreSQL) or sqlite3 (for SQLite)
 
