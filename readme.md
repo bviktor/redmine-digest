@@ -56,4 +56,4 @@ Check out the scripts, they should be straightforward to admins.
 
 ### Alternatives?
 
-[ [1](https://gist.github.com/takus/4177475) ] [ [2](http://www.redmine.org/plugins/digest) ] [ [3](https://github.com/drewkeller/redmine_digest) ]
+[ [1](https://gist.github.com/takus/4177475) ] [ [2](http://www.redmine.org/plugins/digest) ] [ [3](https://github.com/drewkeller/redmine_digest) ] [ [4](http://redminereports.codeplex.com/) ]
