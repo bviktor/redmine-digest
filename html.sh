@@ -10,20 +10,15 @@ ROOT_DIR=`dirname $0`
 
 # HTML and table header
 echo \
-'<html>
+"<html>
 <head>
-<style type="text/css">
-a {text-decoration:none;}
-tr {font-family: Helvetica;}
-th, td {padding:5px;}
-tr.even {background-color: #ddd;}
-table {border-collapse:collapse;}
-table, th, td {border: 1px solid black;}
+<style type=\"text/css\">
+${EMAIL_CSS}
 </style>
 </head>
 <body>
 <table>
-<tr> <th>Project</th> <th>Issue</th> <th>Assignee</th> </tr>'
+<tr> <th>Project</th> <th>Issue</th> <th>Assignee</th> </tr>"
 
 # separator used by psql
 IFS='|'

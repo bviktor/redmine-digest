@@ -42,3 +42,11 @@ REDMINE_URL='http://redmine.foo.bar'
 
 # Recipient that will be added for reports when generated with new_report.sh
 DEFAULT_RCPT='admin@foo.bar'
+
+# CSS code used for formatting the report
+EMAIL_CSS='a {text-decoration:none;}
+tr {font-family: Helvetica;}
+th, td {padding:5px;}
+tr.even {background-color: #ddd;}
+table {border-collapse:collapse;}
+table, th, td {border: 1px solid black;}'
