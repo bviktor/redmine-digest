@@ -9,6 +9,24 @@ REPORT_DIR="${ROOT_DIR}/data"
 # source the config file
 . ${ROOT_DIR}/config.sh
 
+# check DB type right away
+case ${DB_TYPE} in
+    postgresql)
+	CLOSEDON_MATCH="date_trunc('day', issues.closed_on) = current_date - 1"
+	;;
+    sqlite)
+	CLOSEDON_MATCH="date(issues.closed_on) = date('now', '-1 days')"
+	;;
+    mysql|mssql)
+	echo 'Unimplemented database type, sorry.'
+	exit 1
+	;;
+    *)
+	echo 'Invalid database type, check your config.sh.'
+	exit 1
+	;;
+esac
+
 ID_QUERY='SELECT id, name FROM projects ORDER BY id'
 
 # create directory for reports if needed
@@ -45,6 +63,7 @@ then
 	read -p "Project ID (type ? for a list)? " PROJECT_ID
         case ${PROJECT_ID} in
 	    '?')
+		# other cases are handled in the beginning already
 		case ${DB_TYPE} in
 		    postgresql)
 			PGPASSWORD=${DB_PASS} psql --host=${DB_HOST} --port=${DB_PORT} --dbname=${DB_NAME} --username=${DB_USER} \
@@ -52,14 +71,6 @@ then
 			;;
 		    sqlite)
 			sqlite3 -separator ' ' ${DB_FILE} "${ID_QUERY}"
-			;;
-		    mysql|mssql)
-			echo 'Unimplemented database type.'
-			exit 1
-			;;
-		    *)
-			echo 'Invalid database type.'
-			exit 1
 			;;
 		esac
 		;;
@@ -104,7 +115,7 @@ case $REPORT_TYPE in
 	;;
     3)
 	echo \
-	"WHERE date_trunc('day', issues.closed_on) = current_date - 1 AND (projects.id = ${PROJECT_ID} OR projects.parent_id = ${PROJECT_ID})" \
+	"WHERE ${CLOSEDON_MATCH} AND (projects.id = ${PROJECT_ID} OR projects.parent_id = ${PROJECT_ID})" \
 	>> ${REPORT_DIR}/${REPORT_NAME}.psql
 	;;
     4)

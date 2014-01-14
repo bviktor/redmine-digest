@@ -18,11 +18,11 @@ case ${DB_TYPE} in
 	sqlite3 -separator '|' ${DB_FILE} "`cat $1`"
 	;;
     mysql|mssql)
-	echo 'Unimplemented database type.'
+	echo 'Unimplemented database type, sorry.'
 	exit 1
 	;;
     *)
-	echo 'Invalid database type.'
+	echo 'Invalid database type, check your config.sh.'
 	exit 1
 	;;
 esac
