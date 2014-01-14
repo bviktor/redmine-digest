@@ -79,11 +79,16 @@ ${DEFAULT_RCPT}
 
 # query file
 echo \
-"SELECT projects.name, issues.id, issues.subject, issues.parent_id, parent_issues.subject, users.firstname, users.lastname
+"SELECT projects.name, issues.id, issues.subject, issues.parent_id, parent_issues.subject, users.firstname, users.lastname, ROUND(CAST(st.hours_sum AS numeric), 2)
 FROM issues
 JOIN users ON (issues.assigned_to_id = users.id)
 JOIN projects ON (issues.project_id = projects.id)
-LEFT JOIN issues parent_issues ON (issues.parent_id = parent_issues.id)" \
+LEFT JOIN issues parent_issues ON (issues.parent_id = parent_issues.id)
+LEFT JOIN (
+    SELECT issue_id, SUM(hours) AS hours_sum
+    FROM time_entries
+    GROUP BY issue_id
+    ORDER BY issue_id) st ON issues.id = st.issue_id" \
 > ${REPORT_DIR}/${REPORT_NAME}.psql
 
 case $REPORT_TYPE in

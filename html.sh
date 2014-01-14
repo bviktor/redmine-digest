@@ -18,7 +18,7 @@ ${EMAIL_CSS}
 </head>
 <body>
 <table>
-<tr> <th>Project</th> <th>Issue</th> <th>Assignee</th> </tr>"
+<tr> <th>Project</th> <th>Issue</th> <th>Assignee</th> <th>Spent time</th> </tr>"
 
 # separator used by psql
 IFS='|'
@@ -27,7 +27,7 @@ IFS='|'
 EVEN=0
 
 # parse variables and construct table lines
-while read -r PROJ I_ID I_SUB P_ID P_SUB A_FIRST A_LAST
+while read -r PROJ I_ID I_SUB P_ID P_SUB A_FIRST A_LAST TIME
 do
     if [ ${EVEN} -eq 1 ]
     then
@@ -46,7 +46,7 @@ do
         echo "<td><a href=\"${REDMINE_URL}/issues/${I_ID}\">${I_SUB}</a></td>"
     fi
 
-    echo "<td>${A_FIRST} ${A_LAST}</td> </tr>"
+    echo "<td>${A_FIRST} ${A_LAST}</td> <td>${TIME}</td> </tr>"
 done << EOT
 `cat $1`
 EOT
