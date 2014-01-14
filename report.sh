@@ -41,8 +41,8 @@ sh ${ROOT_DIR}/html.sh ${QUERY_FILE} >> ${MAIL_FILE}
 
 # set up debug
 if [ ${DEBUG} -eq 1 ]
-LINE_SEP='*******************************************************************************'
 then
+    LINE_SEP='*******************************************************************************'
     CURL_FLAGS='--verbose'
     echo "${LINE_SEP}"
     echo 'DATABASE QUERY OUTPUT:'
