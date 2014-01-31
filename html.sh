@@ -20,7 +20,7 @@ ${EMAIL_CSS}
 <table>
 <tr> <th>Project</th> <th>Issue</th> <th>Assignee</th> <th>Spent time</th> </tr>"
 
-# separator used by psql
+# separator used in our queries
 IFS='|'
 
 # alternating row colors
