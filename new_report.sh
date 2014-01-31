@@ -35,7 +35,7 @@ mkdir -p ${REPORT_DIR}
 read -p "Report name? " REPORT_NAME
 
 # make sure we don't overwrite something accidentally
-if [ -e ${REPORT_DIR}/${REPORT_NAME}.rcpt ] || [ -e ${REPORT_DIR}/${REPORT_NAME}.psql ]
+if [ -e ${REPORT_DIR}/${REPORT_NAME}.rcpt ] || [ -e ${REPORT_DIR}/${REPORT_NAME}.sql ]
 then
     while true
     do
@@ -100,33 +100,33 @@ LEFT JOIN (
     FROM time_entries
     GROUP BY issue_id
     ORDER BY issue_id) st ON issues.id = st.issue_id" \
-> ${REPORT_DIR}/${REPORT_NAME}.psql
+> ${REPORT_DIR}/${REPORT_NAME}.sql
 
 case $REPORT_TYPE in
     1)
 	echo \
 	"WHERE issues.status_id = 2 AND (projects.id = ${PROJECT_ID} OR projects.parent_id = ${PROJECT_ID})" \
-	>> ${REPORT_DIR}/${REPORT_NAME}.psql
+	>> ${REPORT_DIR}/${REPORT_NAME}.sql
 	;;
     2)
 	echo \
 	"WHERE issues.status_id = 3 AND (projects.id = ${PROJECT_ID} OR projects.parent_id = ${PROJECT_ID})" \
-	>> ${REPORT_DIR}/${REPORT_NAME}.psql
+	>> ${REPORT_DIR}/${REPORT_NAME}.sql
 	;;
     3)
 	echo \
 	"WHERE ${CLOSEDON_MATCH} AND (projects.id = ${PROJECT_ID} OR projects.parent_id = ${PROJECT_ID})" \
-	>> ${REPORT_DIR}/${REPORT_NAME}.psql
+	>> ${REPORT_DIR}/${REPORT_NAME}.sql
 	;;
     4)
 	echo \
 	"WHERE *** INSERT YOUR CONDITIONS HERE ***" \
-	>> ${REPORT_DIR}/${REPORT_NAME}.psql
+	>> ${REPORT_DIR}/${REPORT_NAME}.sql
 	;;
 esac
 
 echo \
 "ORDER BY projects.name, users.login, issues.subject" \
->> ${REPORT_DIR}/${REPORT_NAME}.psql
+>> ${REPORT_DIR}/${REPORT_NAME}.sql
 
 exit 0

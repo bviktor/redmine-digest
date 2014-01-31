@@ -29,12 +29,21 @@ QUERY_FILE="${TEMP_DIR}/query.txt"
 rm -rf ${TEMP_DIR}
 mkdir -p ${TEMP_DIR}
 
+# perform the relevant SQL query
+sh ${ROOT_DIR}/query.sh "${REPORT_DIR}/${ARG1}.sql" > ${QUERY_FILE}
+
+# don't do any extra work if the query returns nothing
+QUERY_LEN=`wc -l < ${QUERY_FILE}`
+
+if [ ${QUERY_LEN} -eq 0 ]
+then
+    echo 'The SQL query returned no rows, report aborted'
+    exit 1
+fi
+
 # generate mail headers and recipients
 sh ${ROOT_DIR}/mail.sh --header "${REPORT_DIR}/${ARG1}.rcpt" "Redmine Report ${ARG2}" > ${MAIL_FILE}
 RCPT_LIST=`sh ${ROOT_DIR}/mail.sh --rcpt "${REPORT_DIR}/${ARG1}.rcpt"`
-
-# perform the relevant SQL query
-sh ${ROOT_DIR}/query.sh "${REPORT_DIR}/${ARG1}.psql" > ${QUERY_FILE}
 
 # convert the query output to an HTML document
 sh ${ROOT_DIR}/html.sh ${QUERY_FILE} >> ${MAIL_FILE}
