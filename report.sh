@@ -46,7 +46,7 @@ sh ${ROOT_DIR}/mail.sh --header "${REPORT_DIR}/${ARG1}.rcpt" "Redmine Report ${A
 RCPT_LIST=`sh ${ROOT_DIR}/mail.sh --rcpt "${REPORT_DIR}/${ARG1}.rcpt"`
 
 # convert the query output to an HTML document
-sh ${ROOT_DIR}/html.sh ${QUERY_FILE} >> ${MAIL_FILE}
+sh ${ROOT_DIR}/html.sh "${REPORT_DIR}/${ARG1}.sh" ${QUERY_FILE} >> ${MAIL_FILE}
 
 # set up debug
 if [ ${DEBUG} -eq 1 ]

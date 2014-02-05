@@ -54,9 +54,9 @@ then
     done
 fi
 
-read -p "Report type (1 = in progress, 2 = resolved, 3 = closed, 4 = custom)? " REPORT_TYPE
+read -p "Report type (1 = daily in progress, 2 = daily resolved, 3 = daily closed, 4 = daily custom, 5 = monthly closed)? " REPORT_TYPE
 
-if [ ${REPORT_TYPE} -ne 4 ]
+if [ ${REPORT_TYPE} -lt 4 ]
 then
     while true
     do
@@ -89,8 +89,10 @@ ${DEFAULT_RCPT}
 > ${REPORT_DIR}/${REPORT_NAME}.rcpt
 
 # query file
+if [ ${REPORT_TYPE} -lt 5 ]
+then
 echo \
-"SELECT projects.name, issues.id, issues.subject, issues.parent_id, parent_issues.subject, users.firstname, users.lastname, ROUND(CAST(st.hours_sum AS numeric), 2)
+'SELECT projects.name, issues.id, issues.subject, issues.parent_id, parent_issues.subject, users.firstname, users.lastname, ROUND(CAST(st.hours_sum AS numeric), 2)
 FROM issues
 JOIN users ON (issues.assigned_to_id = users.id)
 JOIN projects ON (issues.project_id = projects.id)
@@ -99,8 +101,18 @@ LEFT JOIN (
     SELECT issue_id, SUM(hours) AS hours_sum
     FROM time_entries
     GROUP BY issue_id
-    ORDER BY issue_id) st ON issues.id = st.issue_id" \
+    ORDER BY issue_id) st ON issues.id = st.issue_id' \
 > ${REPORT_DIR}/${REPORT_NAME}.sql
+else
+echo \
+"SELECT users.id, users.firstname, users.lastname, COUNT(issues.id)
+FROM issues
+JOIN users ON (issues.assigned_to_id = users.id)
+WHERE date_trunc('month', issues.closed_on) = date_trunc('month', current_date - 29)
+GROUP BY users.id
+ORDER BY users.firstname, users.lastname" \
+> ${REPORT_DIR}/${REPORT_NAME}.sql
+fi
 
 case $REPORT_TYPE in
     1)
@@ -123,10 +135,26 @@ case $REPORT_TYPE in
 	"WHERE *** INSERT YOUR CONDITIONS HERE ***" \
 	>> ${REPORT_DIR}/${REPORT_NAME}.sql
 	;;
+    5)
+	break
+	;;
 esac
 
+if [ ${REPORT_TYPE} -lt 5 ]
+then
 echo \
-"ORDER BY projects.name, users.login, issues.subject" \
+'ORDER BY projects.name, users.login, issues.subject' \
 >> ${REPORT_DIR}/${REPORT_NAME}.sql
+fi
+
+# copy HTML generator template
+case ${REPORT_TYPE} in
+    1|2|3|4)
+	cp ./html_daily.tmpl ${REPORT_DIR}/${REPORT_NAME}.sh
+	;;
+    5)
+	cp ./html_monthly.tmpl ${REPORT_DIR}/${REPORT_NAME}.sh
+	;;
+esac
 
 exit 0

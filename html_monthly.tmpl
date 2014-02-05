@@ -1,0 +1,19 @@
+# table header
+echo '<tr> <th>Assignee</th> <th>Closed Issues</th> </tr>'
+
+# parse variables and construct table lines
+while read -r A_ID A_FIRST A_LAST I_COUNT
+do
+    if [ ${EVEN} -eq 1 ]
+    then
+        echo '<tr class="even">'
+	EVEN=0
+    else
+        echo '<tr>'
+	EVEN=1
+    fi
+
+    echo "<td>${A_FIRST} ${A_LAST}</td> <td><a href=\"${REDMINE_URL}/issues?utf8=%E2%9C%93&set_filter=1&f[]=closed_on&op[closed_on]=lm&f[]=assigned_to_id&op[assigned_to_id]=%3D&v[assigned_to_id][]=${A_ID}&f[]=&c[]=project&c[]=tracker&c[]=status&c[]=priority&c[]=subject&c[]=assigned_to&c[]=updated_on&group_by=\">${I_COUNT}</a></td> </tr>"
+done << EOT
+`cat $2`
+EOT
