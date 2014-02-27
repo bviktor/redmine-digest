@@ -8,10 +8,12 @@
 # subject variables
 YESTERDAY=`date --date="yesterday" +%Y-%m-%d`
 TODAY=`date +%Y-%m-%d`
+LASTMONTH=`date --date="1 month ago" +%Y-%m`
+THISMONTH=`date +%Y-%m`
 
 # parse arguments
 ARG1=$1
-ARG2=`echo $2 | sed "s@YESTERDAY@${YESTERDAY}@" | sed "s@TODAY@${TODAY}@"`
+ARG2=`echo $2 | sed "s@YESTERDAY@${YESTERDAY}@" | sed "s@TODAY@${TODAY}@" | sed "s@LASTMONTH@${LASTMONTH}@" | sed "s@THISMONTH@${THISMONTH}@"`
 
 # dir locations
 ROOT_DIR=`dirname $0`
