@@ -108,7 +108,7 @@ echo \
 "SELECT users.id, users.firstname, users.lastname, COUNT(issues.id)
 FROM issues
 JOIN users ON (issues.assigned_to_id = users.id)
-WHERE date_trunc('month', issues.closed_on) = date_trunc('month', current_date - 29)
+WHERE date_trunc('month', issues.closed_on) = date_trunc('month', current_date - 28)
 GROUP BY users.id
 ORDER BY users.firstname, users.lastname" \
 > ${REPORT_DIR}/${REPORT_NAME}.sql
