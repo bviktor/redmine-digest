@@ -105,11 +105,15 @@ LEFT JOIN (
 > ${REPORT_DIR}/${REPORT_NAME}.sql
 else
 echo \
-"SELECT users.id, users.firstname, users.lastname, COUNT(issues.id)
-FROM issues
-JOIN users ON (issues.assigned_to_id = users.id)
-WHERE date_trunc('month', issues.closed_on) = date_trunc('month', current_date - 28)
-GROUP BY users.id
+"SELECT users.id, users.firstname, users.lastname, coalesce(all_issues.i_count, 0)
+FROM users
+LEFT JOIN (
+    SELECT users.id as u_id, COUNT(issues.id) as i_count
+    FROM users
+    LEFT JOIN issues ON (users.id = issues.assigned_to_id)
+    WHERE date_trunc('month', issues.closed_on) = date_trunc('month', current_date - 28)
+    GROUP BY users.id) all_issues ON users.id = all_issues.u_id
+WHERE users.type = 'User' AND users.status = 1 AND admin = FALSE
 ORDER BY users.firstname, users.lastname" \
 > ${REPORT_DIR}/${REPORT_NAME}.sql
 fi
